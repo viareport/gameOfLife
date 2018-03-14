@@ -54,8 +54,25 @@ function render( ctx, grid )
 function update( ctx, grid )
 {
   // do update
+
+    // on verifie à l'arrache que ça calcule pas trop mal...
+    console.log(getVoisinsVivants(maxX -1,maxY-1,grid));
   
   render( ctx, grid );
+}
+
+function getVoisinsVivants(x, y, grid) {
+    let nbVoisinsVivants = 0;
+
+    for (let i = Math.max(x - 1, 0); i <= Math.min(x + 1, maxX - 1); i++) {
+        for (let j = Math.max(y - 1, 0); j <= Math.min(y + 1, maxY - 1); j++) {
+            if (i !== x || j !== y) {
+                nbVoisinsVivants += grid[i][j];
+            }
+        }
+    }
+
+    return nbVoisinsVivants;
 }
 
 var _grid = generateGrid( maxX, maxY );
