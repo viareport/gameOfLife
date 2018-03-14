@@ -12,11 +12,9 @@ fun main(args: Array<String>) {
         80
     }
 
-    val b = Biotope(n1, n2)
+    val biotope = Biotope(n1, n2)
 
-    println(b)
-
-//    println("Resultat ${add(n1, n2)}")
+    println(biotope)
 }
 
 fun add(n1: Int, n2: Int) = n1 + n2

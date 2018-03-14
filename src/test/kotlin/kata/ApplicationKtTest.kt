@@ -31,6 +31,16 @@ class ApplicationKtTest {
 
         val case = biotope.getCase(43, 21)
     }
+
+
+    @Test
+    fun `getNbVoisinsVivants ne plante pas`() {
+        val biotope = Biotope(42, 24)
+
+        val nbVoisins = biotope.getNbVoisinsVivants(0,0)
+
+        assertThat(nbVoisins).isEqualTo(0)
+    }
 }
 
 
