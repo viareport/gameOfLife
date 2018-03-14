@@ -23,4 +23,9 @@ describe("Grille", () => {
    //   var grille = new Grille(dimX, dimY, alive);
    //   expect(grille.cells.length.toBe(dimX * dimY);
    // })
+   it("on ne sait pas tester puisque l'on a créer la grille en aléatoire", () => {
+    const dimX = 3, dimY = 4;
+    var grille = Grille(dimX, dimY);
+    expect(grille.cells.size).toBe(dimX * dimY);
+  })
 });
