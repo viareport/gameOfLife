@@ -69,13 +69,17 @@ class Biotope {
   }
 
   checkAliveCells () {
+    var nexMatrice = [];
     for ( var x = 0; x < this.matrice.length; ++x )
     {
+      nexMatrice[ x ] = [];
       for ( var y = 0; y < this.matrice[ x ].length; ++y )
       {
-        this.matrice[ x ][ y ] = this.updateCellState( x, y );
+        nexMatrice[ x ][ y ] = this.updateCellState( x, y );
       }
     }
+
+    this.matrice = nexMatrice;
   }
 }
 
