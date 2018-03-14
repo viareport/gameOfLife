@@ -33,10 +33,26 @@ class Grille {
     }
 
     getCellule(ligne, colonne) {
-        if(!this.grille[ligne] || this.grille[ligne][colonne]) {
+        if(!this.grille[ligne] || !this.grille[ligne][colonne]) {
             return null;
         }
         return this.grille[ligne][colonne];
+    }
+
+    cellulesVoisinesVivantes(ligne, colonne) {
+
+      var nb = 0;
+
+      nb += this.getCellule(ligne - 1, colonne - 1) ? 1 : 0;
+      nb += this.getCellule(ligne - 1, colonne) ? 1 : 0;
+      nb += this.getCellule(ligne - 1, colonne + 1) ? 1 : 0;
+      nb += this.getCellule(ligne, colonne -1) ? 1 : 0;
+      nb += this.getCellule(ligne, colonne + 1) ? 1 : 0;
+      nb += this.getCellule(ligne + 1, colonne - 1) ? 1 : 0;
+      nb += this.getCellule(ligne + 1, colonne) ? 1 : 0;
+      nb += this.getCellule(ligne + 1, colonne + 1) ? 1 : 0;
+
+      return nb;
     }
 
 
