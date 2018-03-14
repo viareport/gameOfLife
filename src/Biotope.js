@@ -2,10 +2,13 @@
 
 class Biotope {
 
-  constructor(r,c) {
-    this.matrice = Array(r);
-    for (let x = 0 ; x < r ; x++) {
-      this.matrice[x] = Array(c);
+  constructor(rows,cols) {
+    this.matrice = Array(rows);
+    for (let x = 0 ; x < rows ; x++) {
+      this.matrice[x] = [];
+      for( let y = 0; y < cols; ++y ) {
+        this.matrice[x].push( Math.random() * 10 > 7 ? 1 : 0 );
+      }
     }
   }
 
