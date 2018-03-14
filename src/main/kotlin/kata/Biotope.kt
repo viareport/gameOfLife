@@ -4,7 +4,14 @@ class Biotope(val x: Int, val y: Int) {
 
     val grille: Map<Int, Map<Int, Case>> = (0..this.y).associate { y ->
         y to (0..this.x).associate { x ->
-            x to Case.Vide() } }
+            x to if( Math.random() * 10 > 7) {
+                Case.Vide()
+            }
+            else {
+                Case.Pleine()
+            }
+        }
+    }
 
     fun getCase(x: Int, y: Int): Case {
         if (x > this.x  || x < 0) {
@@ -18,18 +25,31 @@ class Biotope(val x: Int, val y: Int) {
     }
 
     override fun toString(): String {
-        (0..this.y).joinToString("\n") { y ->
-            (0..x).joinToString("")
-        }
-    }
 
+        var out = "";
+        for((yKey, map) in grille) {
+            for((xKey, case) in map) {
+                out += case.toString()
+            }
+            out += "\n"
+        }
+
+        return out;
+    }
 }
 
 sealed class Case() {
     class Vide(): Case() {
-
+        override fun toString(): String {
+            return "0"
+        }
     }
-    class Pleine(val cellule: Cellule): Case()
+
+    class Pleine(): Case() {
+        override fun toString(): String {
+            return "1"
+        }
+    }
 }
 
 sealed class Cellule() {
