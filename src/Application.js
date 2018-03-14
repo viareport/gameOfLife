@@ -12,6 +12,10 @@ function main(args) {
 
     let grille = new Grille(n1, n2)
     grille.afficher()
+    grille.generateNextState()
+    grille.afficher()
+    grille.generateNextState()
+    grille.afficher()
 }
 
 main(args);

@@ -56,7 +56,7 @@ class Grille {
 
   generateNextState() {
     this.grille = this.grille.map((row, r) => row.map((cell, c) => {
-      var nbvoisin = cellulesVoisinesVivantes(r, c)
+      var nbvoisin = this.cellulesVoisinesVivantes(r, c)
       if (nbvoisin < 2 || nbvoisin > 3) {
         return cellStatus.dead
       }
