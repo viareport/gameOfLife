@@ -226,5 +226,5 @@ function generator3()
     ,[ 0, 0, 0, 0, 0, 0, 1 ]
     ,[ 0, 0, 1, 0, 0, 1, 0 ]
   ];
-  setGrid( 1, 1, custom );
+  setGrid( 1, 3, custom );
 }
