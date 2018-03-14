@@ -1,14 +1,16 @@
 "use strict";
 
-let {add} =  require("./Add")
 
-let args = process.argv.slice(2)
+let {Biotope} =  require("./Biotope")
+
+let args = process.argv.slice(2);
 
 function main(args) {
-    let n1 = Number(args[0]) || 10
-    let n2 = Number(args[1]) || 10
-    console.log(`Resultat ${add(n1, n2)}`)
+    let rows = Number(args[0]) || 10;
+    let columns = Number(args[1]) || 10;
+    const biotope = new Biotope(rows, columns);
+    console.log(biotope.toString());
 }
 
-main(args)
+main(args);
 
