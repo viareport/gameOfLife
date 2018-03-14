@@ -9,7 +9,13 @@ function main(args) {
     let rows = Number(args[0]) || 10;
     let columns = Number(args[1]) || 10;
     const biotope = new Biotope(rows, columns);
-    console.log(biotope.toString());
+
+    setInterval( () => {
+        console.log( "====== updating ======" );
+        console.log(biotope.toString());
+        console.log( "======================" );
+        biotope.checkAliveCells();
+    }, 1000 );
 }
 
 main(args);
