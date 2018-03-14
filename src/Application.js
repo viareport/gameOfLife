@@ -1,21 +1,23 @@
 "use strict";
 
-let { Grille } = require("./Grille");
+let {Grille, CELL} =  require("./Grille");
 
 let args = process.argv.slice(2);
 
 function main(args) {
-    let n1 = Number(args[0]);
-    let n2 = Number(args[1]);
-
-    var grille = Grille(n1, n2)
-
-    var nbcells = Math.floor(Math.random() * Math.floor(n1 * n2 / 2))
-    for (var i = 0; i < nbcells; i++) {
-        grille.addCell(Math.floor(Math.random() * Math.floor(n1)), Math.floor(Math.random() * Math.floor(n2)))
+    let n1 = Number(args[0]) || 80;
+    let n2 = Number(args[1]) || 80;
+    const grille = new Grille(n1, n2);
+    for (let x = 0 ; x < grille.cells.length ; x++) {
+        const row = grille.cells[x];
+        for (let y = 0 ; y < row.length ; y++) {
+            const random = Math.random();
+            if (random > 0.8) {
+                grille.setCell(x, y, CELL.ALIVE);
+            }
+        }
     }
-
-    console.log(grille.cells)
+    console.log(`Resultat ${grille.toString()}`)
 }
 
 main(args);

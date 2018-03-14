@@ -1,24 +1,53 @@
 "use strict";
 
-const cell = (x, y) => {
-  this.x = x
-  this.y = y
-  this.state = 1 // 0 - dead, 1 - alive
+function initCells(dimX, dimY) {
+    const grille = Array(dimX);
+    for (let x = 0 ; x < grille.length ; x++) {
+        grille[x] = Array(dimY);
+
+        for (let y = 0 ; y < grille[x].length ; y++) {
+            grille[x][y] = CELL.EMPTY;
+        }
+    }
+    return grille;
 }
 
-const Grille = (dimX, dimY) => {
-  this.dimX = dimX;
-  this.dimY = dimY;
-  this.cells = new Map();
+const CELL = {
+    EMPTY: " ",
+    DEAD: "x",
+    ALIVE: "o"
+};
 
-  function addCell(x, y) {
-    if (this.cells[x]) {
-      this.cells[x] = new Map();
+class Grille {
+    constructor(dimX, dimY) {
+        this.dimX = dimX;
+        this.dimY = dimY;
+        this.cells = initCells(dimX, dimY);
     }
-    this.cells[x][y] = new cell(x, y)
-  }
 
-  function nbrAliveVoisin(cell) {
+    getCell(x, y) {
+       // if (x < 0 || x > this.cells.length || (this.cells[x]))
+        return this.cells[x][y];
+    }
+
+    setCell(x, y, content) {
+        this.cells[x][y] = content;
+    }
+
+    toString() {
+        const grille = this.cells;
+        let result = "";
+        for (let x = 0 ; x < grille.length ; x++) {
+
+            for (let y = 0 ; y < grille[x].length ; y++) {
+                result += grille[x][y];
+            }
+            result += "\n";
+        }
+        return result;
+    }
+  
+  nbrAliveVoisin(x, y) {
     var nbr = 0
     for (var i = (cell.x - 1); i <= (cell.x + 1); i++) {
       for (var j = (cell.y - 1); j <= (cell.y + 1); j++) {
@@ -31,8 +60,6 @@ const Grille = (dimX, dimY) => {
     }
     return nbr
   }
-
-  return this
 }
 
-module.exports = { Grille };
+module.exports = {Grille, CELL};
