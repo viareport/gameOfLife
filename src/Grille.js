@@ -60,6 +60,9 @@ class Grille {
       if (nbvoisin < 2 || nbvoisin > 3) {
         return cellStatus.dead
       }
+      else if (cell === cellStatus.dead && nbvoisin === 3) {
+        return cellStatus.alive
+      }
       else {
         return cell
       }
