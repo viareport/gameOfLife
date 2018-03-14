@@ -7,7 +7,7 @@ Lancer la commande:
 http-server
 
 Lancer l'url dans le navigateur:
-127.0.0.1:8080
+127.0.0.1:8080 (il est peut être nécessaire de re-actualiser car le premier coup il affiche la racine projet)
 
 Tout se passe dans le dossier /public dans le fichier index.js (et éventuellement le index.html)
 
