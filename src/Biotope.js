@@ -1,44 +1,51 @@
 "use strict";
 
+const status = {
+  empty: 0,
+  alive: 1,
+  dead: 2,
+  zombie: 3
+}
+
 class Biotope {
 
-  constructor(rows,cols) {
+  constructor(rows, cols) {
     this.matrice = Array(rows);
-    for (let x = 0 ; x < rows ; x++) {
+    for (let x = 0; x < rows; x++) {
       this.matrice[x] = [];
-      for( let y = 0; y < cols; ++y ) {
-        this.matrice[x].push( Math.random() * 10 > 7 ? 1 : 0 );
+      for (let y = 0; y < cols; ++y) {
+        this.matrice[x].push(Math.floor(Math.random() * Math.floor(4)));
       }
     }
   }
 
-  toString () {
-      let result = "";
-      for (let x = 0 ; x < this.matrice.length ; x++) {
-          const row = this.matrice[x];
-          for (let y = 0 ; y < row.length ; y++) {
-              result += row[y] || " ";
-          }
-          result += "\n";
+  toString() {
+    return this.matrice.map((row) => row.map((cell) => {
+      switch (cell) {
+        case status.alive:
+          return "A"
+        case status.dead:
+          return "d"
+        case status.zombie:
+          return "Z"
+        default:
+          return "-"
       }
-      return result;
+    }).join("\t")).join("\n")
   }
 
-  aliveNb( cellX, cellY ) {
+  aliveNb(cellX, cellY) {
     var nb = 0;
 
-    for ( var x = cellX - 1; x <= cellX + 1; ++x )
-    {
-      if ( x < 0 || x >= this.matrice.length ) {
+    for (var x = cellX - 1; x <= cellX + 1; ++x) {
+      if (x < 0 || x >= this.matrice.length) {
         continue;
       }
-      for ( var y = cellY -1; y <= cellY + 1; ++y )
-      {
-        if ( ( x === cellX && y === cellY ) || y < 0 || y >= this.matrice[ 0 ].length ) {
+      for (var y = cellY - 1; y <= cellY + 1; ++y) {
+        if ((x === cellX && y === cellY) || y < 0 || y >= this.matrice[0].length) {
           continue;
         }
-
-        if ( this.matrice[ x ][ y ] === 1 ) {
+        if ((this.matrice[x][y] === status.alive) || (this.matrice[x][y] === status.zombie)) {
           ++nb;
         }
       }
@@ -46,41 +53,50 @@ class Biotope {
 
     return nb;
   }
-
-  updateCellState ( x, y )
-  {
-    var nb = this.aliveNb( x, y );
-    //console.log( nb )
-    var currentState = this.matrice[ x ][ y ];
-
-    if ( currentState ) {
-      // still alive
-      if ( nb >= 2 && nb <= 3 ) {
-        return 1;
+  getStatusZombie(cellX, cellY) {
+    var nbAlive = 0;
+    var nbZombie = 0;
+    for (var x = cellX - 1; x <= cellX + 1; ++x) {
+      if (x < 0 || x >= this.matrice.length) {
+        continue;
       }
-      // dead
-      else {
-        return 0;
+      for (var y = cellY - 1; y <= cellY + 1; ++y) {
+        if ((x === cellX && y === cellY) || y < 0 || y >= this.matrice[0].length) {
+          continue;
+        }
+        if (this.matrice[x][y] === status.alive) {
+          ++nbAlive;
+        }
+        else if (this.matrice[x][y] === status.zombie) {
+          ++nbZombie;
+        }
       }
     }
-    else {
-      return nb === 3 ? 1 : 0;
+
+    return nbAlive > nbZombie ? status.alive : status.zombie
+  }
+
+  updateCellState(x, y) {
+    var nb = this.aliveNb(x, y);
+    //console.log( nb )
+    var currentState = this.matrice[x][y];
+
+    switch (currentState) {
+      case status.alive:
+      case status.zombie:
+        return (nb >= 2 && nb <= 3) ? currentState : status.dead
+      case status.empty:
+        return (nb !== 3) ? currentState : status.alive
+      case status.dead:
+        return (nb !== 3) ? currentState : this.getStatusZombie(x, y)
+      default:
+        return currentState
     }
   }
 
-  checkAliveCells () {
-    var nexMatrice = [];
-    for ( var x = 0; x < this.matrice.length; ++x )
-    {
-      nexMatrice[ x ] = [];
-      for ( var y = 0; y < this.matrice[ x ].length; ++y )
-      {
-        nexMatrice[ x ][ y ] = this.updateCellState( x, y );
-      }
-    }
-
-    this.matrice = nexMatrice;
+  checkAliveCells() {
+    this.matrice = this.matrice.map((row, x) => row.map((cell, y) => this.updateCellState(x, y)))
   }
 }
 
-module.exports = {Biotope};
+module.exports = { Biotope };
