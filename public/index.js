@@ -3,13 +3,13 @@ var CTX = canvas.getContext( '2d' );
 
 var CANVAS_W = canvas.width;
 var CANVAS_H = canvas.height;
-var CELL_SIZE = 20;
+var CELL_SIZE = 10;
 
 var maxX = Math.floor( CANVAS_W / CELL_SIZE );
 var maxY = Math.floor( CANVAS_H / CELL_SIZE );
 
 // generate the grid
-function generateGrid( maxX, maxY, zeroOnly )
+function makeGrid( maxX, maxY, zeroOnly )
 {
   var grid = [];
   for ( var y = 0; y < maxY; ++y )
@@ -80,7 +80,7 @@ function updateCellState( grid, y, x )
   var nb = aliveNb( grid, y, x );
   var currentState = grid[ y ][ x ];
   if ( currentState == 1 ) {
-    console.log( y, x,nb );
+    // console.log( y, x,nb );
     if ( nb >= 2 && nb <= 3 ) {
       return 1;
     }
@@ -113,24 +113,16 @@ var gridhistory = [];
 function update( ctx, grid )
 {
   gridhistory.push( grid );
-  render( ctx, grid );
   _grid = updateGridState( grid );
+  render( ctx, _grid );
   
   console.log( "update" )
 }
 
-var _grid = generateGrid( maxX, maxY );
-// setInterval( function()
-// {
-//   update( CTX, _grid );
-// }, 1000 /* 500 ms */ );
-
-function next() {
-  update( CTX, _grid );
-}
+var _grid = makeGrid( maxX, maxY );
 
 function setGrid( sx, sy, grid ) {
-  _grid = generateGrid( maxX, maxY, true );
+  _grid = makeGrid( maxX, maxY, true );
 
   for ( var y = 0; y < grid.length; ++y )
   {
@@ -139,6 +131,40 @@ function setGrid( sx, sy, grid ) {
       _grid[ sy + y ][ sx + x ] = grid[ y ][ x ];
     }
   }
+
+  render( CTX, _grid );
 }
 
 // test: setGrid( 7, 7, [[1,1,1,1,1]])
+
+var interval = undefined;
+var PLAY_RATE = 1000;
+function play()
+{
+  render( CTX, _grid );
+  interval = setInterval( function()
+  {
+    update( CTX, _grid );
+  }, PLAY_RATE /* 500 ms */ );
+}
+function pause()
+{
+  clearInterval( interval );
+  interval = undefined;
+}
+function next() {
+  update( CTX, _grid );
+}
+function goTo( historyIndex ) {
+  render( CTX, gridhistory[ historyIndex ] );
+}
+
+function generator1()
+{
+  var custom = [
+    [0, 1, 1]
+    ,[1, 1, 0]
+    ,[0, 1, 0]
+  ];
+  setGrid( maxX / 2 - 1 >> 0, maxY / 2 - 1 >> 0, custom );
+}
