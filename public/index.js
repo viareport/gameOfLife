@@ -109,10 +109,12 @@ function updateGridState( grid )
 }
 
 var gridhistory = [];
+var currentHistoryIndex = 0;
 // should update the grid
 function update( ctx, grid )
 {
   gridhistory.push( grid );
+  currentHistoryIndex = gridhistory.length - 1;
   _grid = updateGridState( grid );
   render( ctx, _grid );
   
@@ -138,7 +140,7 @@ function setGrid( sx, sy, grid ) {
 // test: setGrid( 7, 7, [[1,1,1,1,1]])
 
 var interval = undefined;
-var PLAY_RATE = 1000;
+var PLAY_RATE = 100;
 function play()
 {
   render( CTX, _grid );
@@ -156,11 +158,16 @@ function next() {
   update( CTX, _grid );
 }
 function goTo( historyIndex ) {
+  if ( !gridhistory[ historyIndex ] ) {
+    return;
+  }
+  currentHistoryIndex = historyIndex;
   render( CTX, gridhistory[ historyIndex ] );
 }
 
 function generator1()
 {
+  PLAY_RATE = 100;
   var custom = [
     [0, 1, 1]
     ,[1, 1, 0]
@@ -168,3 +175,28 @@ function generator1()
   ];
   setGrid( maxX / 2 - 1 >> 0, maxY / 2 - 1 >> 0, custom );
 }
+
+function generator2()
+{
+  PLAY_RATE = 250;
+  var custom = [
+    [ 1, 0, 1, 0, 1 ]
+    ,[ 1, 0, 0, 0, 1 ]
+    ,[ 1, 0, 0, 0, 1 ]
+    ,[ 1, 0, 0, 0, 1 ]
+    ,[ 1, 0, 1, 0, 1 ]
+  ];
+  setGrid( maxX / 2 - 3 >> 0, maxY / 2 - 3 >> 0, custom );
+}
+
+
+document.getElementById( "pause" ).addEventListener( "click", function(){ pause(); } );
+document.getElementById( "play" ).addEventListener( "click", function(){ play(); } );
+document.getElementById( "prev" ).addEventListener( "click", function()
+{
+  goTo( currentHistoryIndex - 1 );
+} );
+document.getElementById( "next" ).addEventListener( "click", function()
+{
+  goTo( currentHistoryIndex + 1 );
+} );
