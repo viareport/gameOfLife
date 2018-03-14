@@ -27,7 +27,56 @@ describe("Grille", () => {
         expect(grille.afficher());
     });
 
-    it("Une cellule sait déterminer son nombre de voisins vivants", () => {
+
+    it("cellulesVoisinesVivantes a 8 voisins vivants en 0,0", () => {
+        // GIVEN
+        const grille = new Grille(4, 4);
+        grille.allAlive();
+
+        // WHEN
+        const nbVoisins = grille.cellulesVoisinesVivantes(0,0);
+
+        // THEN
+        expect(nbVoisins).toBe(8);
+    });
+
+    it("cellulesVoisinesVivantes a 8 voisins vivants en 0,3", () => {
+        // GIVEN
+        const grille = new Grille(4, 4);
+        grille.allAlive();
+
+        // WHEN
+        const nbVoisins = grille.cellulesVoisinesVivantes(0,3);
+
+        // THEN
+        expect(nbVoisins).toBe(8);
+    });
+
+    it("cellulesVoisinesVivantes a 8 voisins vivants en 3,0", () => {
+        // GIVEN
+        const grille = new Grille(4, 4);
+        grille.allAlive();
+
+        // WHEN
+        const nbVoisins = grille.cellulesVoisinesVivantes(3,0);
+
+        // THEN
+        expect(nbVoisins).toBe(8);
+    });
+
+    it("cellulesVoisinesVivantes a 8 voisins vivants en 3,3", () => {
+        // GIVEN
+        const grille = new Grille(4, 4);
+        grille.allAlive();
+
+        // WHEN
+        const nbVoisins = grille.cellulesVoisinesVivantes(3,3);
+
+        // THEN
+        expect(nbVoisins).toBe(8);
+    });
+
+    describe("Une cellule sait déterminer son nombre de voisins vivants", () => {
       it("une cellule connait ses voisins vivants", () => {
         // GIVEN
         const nbLignes = 4;
@@ -35,9 +84,10 @@ describe("Grille", () => {
 
         // WHEN
         const grille = new Grille(nbLignes, nbColonnes);
+          grille.allAlive();
 
         // THEN
-         expect(cellulesVoisinesVivantes(nbLignes, nbColonnes)).any(Number);
+         expect(grille.cellulesVoisinesVivantes(2, 2)).toBe(8);
       });
       // it("le nombre doit être inférieur ou égal à 3", () => {
       //   expect(cell.cellulesVoisinesVivantes()).toBeLessThanOrEqual(3).
