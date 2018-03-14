@@ -5,10 +5,6 @@ import org.junit.Test
 
 class ApplicationKtTest {
 
-    @Test
-    fun `add should return sum`() {
-        assertThat(add(1, 2)).isEqualTo(3)
-    }
 
     @Test
     fun `un biotope a 2 dimensions`() {
