@@ -1,11 +1,14 @@
 Première étape
 
-npm install
+npm i -g http-server
 
-Comment lancer le programme en ligne de commande ?
+Lancer la commande:
 
-npm start 3 4
+http-server
 
-Comment lancer les tests unitaires en ligne de commande ?
+Lancer l'url dans le navigateur:
+127.0.0.1:8080
 
-npm test
+Tout se passe dans le dossier /public dans le fichier index.js (et éventuellement le index.html)
+
+Afin de kill le cache du navigateur, faire F12 dans l'onglet "Network" cocher la case "disable cache (en haut)
